@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADS+ - Vente en Ligne</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-top">
+            <h1>🚀 ADS+</h1>
+            <div class="header-right">
+                <div class="cart-icon" id="cartIcon">
+                    🛒 Panier (<span id="cartCount">0</span>)
+                </div>
+                <div class="user-menu" id="userMenu">
+                    <button class="user-btn" id="userBtn">👤 Compte</button>
+                    <div class="dropdown" id="userDropdown">
+                        <a href="#" id="profileLink" onclick="openProfile()">📋 Mon Profil</a>
+                        <a href="#" id="ordersLink" onclick="openOrders()">📦 Mes Commandes</a>
+                        <a href="#" id="logoutLink" onclick="logout()">🚪 Déconnexion</a>
+                        <a href="#" id="loginLink" onclick="openLogin()">🔑 Connexion</a>
+                        <a href="#" id="signupLink" onclick="openSignup()">✍️ Créer un Compte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <a href="#home">Accueil</a>
+            <a href="#products">Produits</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <h2>Bienvenue dans ADS+</h2>
+            <p>Les meilleurs produits au meilleur prix en Francs CFA</p>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products-section">
+            <h2>Nos Produits</h2>
+            
+            <!-- Search & Filters -->
+            <div class="search-filter">
+                <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit..." class="search-box">
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="electronique">Électronique</button>
+                    <button class="filter-btn" data-filter="vetements">Vêtements</button>
+                    <button class="filter-btn" data-filter="maison">Maison</button>
+                </div>
+            </div>
+
+            <div id="productsList" class="products-grid"></div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact">
+            <h2>Nous Contacter</h2>
+            <p>Email: info@laboutique.com | Téléphone: +221 77 123 45 67 | WhatsApp: +221 77 123 45 67</p>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content auth-form">
+            <span class="close" id="closeLogin">&times;</span>
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="signin">Connexion</button>
+                <button class="auth-tab" data-tab="signup">Inscription</button>
+            </div>
+            
+            <!-- Sign In -->
+            <form id="signInForm" class="auth-form-content active">
+                <h2>Connexion</h2>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Se Connecter</button>
+            </form>
+            
+            <!-- Sign Up -->
+            <form id="signUpForm" class="auth-form-content">
+                <h2>Inscription</h2>
+                <div class="form-group">
+                    <label>Nom Complet</label>
+                    <input type="text" id="signupName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <input type="tel" id="signupPhone" required>
+                </div>
+                <button type="submit" class="submit-btn">S'Inscrire</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeProfile">&times;</span>
+            <h2>📋 Mon Profil</h2>
+            <div id="profileInfo" class="profile-info">
+                <p><strong>Nom:</strong> <span id="profileName"></span></p>
+                <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                <p><strong>Téléphone:</strong> <span id="profilePhone"></span></p>
+                <p><strong>Membre depuis:</strong> <span id="profileDate"></span></p>
+            </div>
+            <button class="submit-btn" onclick="logout()">Déconnexion</button>
+        </div>
+    </div>
+
+    <!-- Orders Modal -->
+    <div id="ordersModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeOrders">&times;</span>
+            <h2>📦 Mes Commandes</h2>
+            <div id="ordersList" class="orders-list">
+                <p style="text-align: center; color: #999;">Aucune commande</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeCart">&times;</span>
+            <h2>Mon Panier</h2>
+            <div id="cartItems"></div>
+            <div class="cart-total">
+                <strong>Total: <span id="totalPrice">0</span> FCFA</strong>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Passer la Commande</button>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content payment-form">
+            <span class="close" id="closePayment">&times;</span>
+            <h2>💳 Formulaire de Paiement</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Nom Complet</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <input type="tel" id="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Adresse</label>
+                    <input type="text" id="address" required>
+                </div>
+                <div class="form-group">
+                    <label>Numéro de Carte</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Expiration</label>
+                        <input type="text" id="expiry" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group">
+                        <label>CVC</label>
+                        <input type="text" id="cvc" placeholder="123" required>
+                    </div>
+                </div>
+                <div class="payment-total">
+                    <h3>Montant Total: <span id="paymentTotal">0</span> FCFA</h3>
+                </div>
+                <button type="submit" class="pay-btn">💰 Effectuer le Paiement</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 ADS+ - Tous droits réservés</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
